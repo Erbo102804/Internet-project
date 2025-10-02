@@ -6,16 +6,17 @@ export default function Layout({ children }) {
   const location = useLocation()
 
   const navItems = [
-    { path: '/', label: 'Dashboard' },
-    { path: '/payments', label: 'Payments' },
-    { path: '/users', label: 'Users' }
+    { path: '/', label: 'Дашборд' },
+    { path: '/payments', label: 'Платежи' },
+    { path: '/users', label: 'Пользователи' },
+    { path: '/services', label: 'Услуги' }
   ]
 
   return (
     <div className="flex min-h-screen bg-dark-900 text-white">
       <aside className="w-64 bg-dark-800 p-4">
         <div className="mb-8">
-          <h1 className="text-xl font-bold">PaySystem</h1>
+          <h1 className="text-xl font-bold">RuralNet</h1>
         </div>
         <nav>
           {navItems.map(item => (
