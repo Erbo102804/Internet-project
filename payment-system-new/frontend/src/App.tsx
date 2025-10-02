@@ -12,16 +12,31 @@ import UserDashboard from './components/UserDashboard'
 import UserServices from './components/UserServices'
 import UserPayments from './components/UserPayments'
 import UserSupport from './components/UserSupport'
+import ConfigTest from './components/ConfigTest'
 import Notifications from './components/Notifications'
 import { useNotification } from './hooks/useNotification'
+import { useAuth } from './hooks/useAuth'
 
 function AppContent() {
   const { notifications, addNotification } = useNotification()
+  const { user, loading } = useAuth()
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-dark-900 flex items-center justify-center">
+        <div className="text-white text-xl">Загрузка...</div>
+      </div>
+    )
+  }
 
   return (
     <>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route 
+          path="/login" 
+          element={user ? <Navigate to={user.role === 'admin' ? '/admin' : '/user'} replace /> : <Login />} 
+        />
+        <Route path="/config" element={<ConfigTest />} />
         
         {/* Admin Routes */}
         <Route path="/admin" element={
@@ -83,8 +98,11 @@ function AppContent() {
           </ProtectedRoute>
         } />
 
-        {/* Redirect root to login */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        {/* Redirect root */}
+        <Route 
+          path="/" 
+          element={<Navigate to={user ? (user.role === 'admin' ? '/admin' : '/user') : '/login'} replace />} 
+        />
       </Routes>
       <Notifications notifications={notifications} />
     </>
